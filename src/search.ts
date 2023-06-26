@@ -1,11 +1,11 @@
 import { createAutocomplete } from '@unocss/autocomplete'
 import { createGenerator } from '@unocss/core'
-import config from './uno.config'
+import getConfig from './uno.config'
 
 const prettier = require('prettier')
 
 export async function getUnoCompletions(unoUri: string) {
-  const uno = createGenerator({}, config)
+  const uno = createGenerator({}, await getConfig(unoUri))
   const ac = createAutocomplete(uno)
 
   async function enumerateAutocomplete() {
