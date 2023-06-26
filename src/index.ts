@@ -88,6 +88,7 @@ export async function activate(context: vscode.ExtensionContext) {
     }))
   }
 
+  let cacheMap: any
   function updateUnoStatus(cwd = currentFolder.uri.fsPath.replace(/\\/g, '/')) {
     if (activeTextEditorUri && !prefix.includes(activeTextEditorUri.split('.').slice(-1)[0])) {
       isUno = undefined
@@ -96,8 +97,12 @@ export async function activate(context: vscode.ExtensionContext) {
     return findUp(['uno.config.js', 'uno.config.ts', 'unocss.config.js', 'unocss.config.ts'], { cwd }).then((res) => {
       if (!res)
         return
-      if (!completions.length)
-        getUnoCompletions(res).then((res: any) => completions = res)
+      if (!completions.length) {
+        getUnoCompletions(res).then((res: any) => {
+          completions = res
+          cacheMap = completions.map(([content, detail]: any) => createCompletionItem({ content, detail }))
+        })
+      }
       isUno = res
     })
   }
@@ -110,9 +115,7 @@ export async function activate(context: vscode.ExtensionContext) {
     const input = lineText.slice(0, character).split(' ').slice(-1)[0].trim()
     if (!input)
       return
-    if (cacheMap)
-      return cacheMap
-    return cacheMap = completions.map(([content, detail]: any) => createCompletionItem({ content, detail }))
+    return cacheMap
   }, ['"', '\'', ' ', '.']))
 }
 
