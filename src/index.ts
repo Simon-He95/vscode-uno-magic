@@ -5,6 +5,7 @@ import { findUp } from 'find-up'
 import { rules, transform } from './transform'
 import { getUnoCompletions } from './search'
 
+let cacheMap: any
 export async function activate(context: vscode.ExtensionContext) {
   // 只针对当前根目录下有tailwind.config.js | tailwind.config.ts才生效
   const { presets = [], prefix = ['ts', 'js', 'vue', 'tsx', 'jsx', 'svelte'] } = getConfiguration('uno-magic')
@@ -101,8 +102,6 @@ export async function activate(context: vscode.ExtensionContext) {
     })
   }
 
-  let cacheMap: any = null
-
   // 如果是unocss环境下,给出一些预设提醒
   context.subscriptions.push(registerCompletionItemProvider(['javascript', 'javascriptreact', 'typescriptreact', 'html', 'vue', 'css'], () => {
     if (!isUno)
@@ -115,11 +114,8 @@ export async function activate(context: vscode.ExtensionContext) {
       return cacheMap
     return cacheMap = completions.map(([content, detail]: any) => createCompletionItem({ content, detail }))
   }, ['"', '\'', ' ', '.']))
-
-  // 提前去加载一些缓存
-  // const presets = ['w','h','m','ma','max','p','min','text','transform']
 }
 
 export function deactivate() {
-
+  cacheMap = null
 }

@@ -44,31 +44,32 @@
     "typecheck": "tsc --noEmit",
     "release": "bumpp && pnpm run publish"
   },
-  "dependencies": {
-    "@unocss/autocomplete": "^0.53.3",
-    "@unocss/core": "^0.53.3",
-    "unocss": "^0.53.3"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.4",
     "@types/node": "^18.15.11",
     "@types/prettier": "^2.7.3",
     "@types/vscode": "^1.77.0",
+    "@unocss/autocomplete": "^0.53.3",
+    "@unocss/core": "^0.53.3",
+    "@unocss/preset-attributify": "^0.53.3",
+    "@unocss/preset-icons": "^0.53.3",
+    "@unocss/preset-uno": "^0.53.3",
+    "@unocss/preset-web-fonts": "^0.53.3",
+    "@unocss/preset-wind": "^0.53.3",
+    "@unocss/transformer-directives": "^0.53.3",
+    "@unocss/transformer-variant-group": "^0.53.3",
     "@vscode-use/utils": "^0.0.22",
-    "@vueuse/core": "^10.2.0",
     "bumpp": "^9.1.0",
     "eslint": "^8.37.0",
     "esno": "^0.16.3",
     "find-up": "^6.3.0",
-    "fuse.js": "^6.6.2",
     "pnpm": "^8.1.1",
     "prettier": "^2.8.8",
     "rimraf": "^4.4.1",
     "tsup": "^6.7.0",
     "typescript": "^5.0.3",
-    "vite": "^4.2.1",
+    "unbuild": "^1.2.1",
     "vitest": "^0.29.8",
-    "vsce": "^2.15.0",
-    "vue": "^3.3.4"
+    "vsce": "^2.15.0"
   }
 }
