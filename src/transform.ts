@@ -39,6 +39,8 @@ export const rules: any = [
   ['minh', 'min-h'],
   ['maxw', 'max-w'],
   ['minw', 'min-w'],
+  ['translatex', 'translate-x'],
+  ['translatey', 'translate-y'],
   [COMMON_REG, (_: string, prefix: string, v: string, v1 = '', v2 = '') => {
     if (v in customMap)
       v = customMap[v]
