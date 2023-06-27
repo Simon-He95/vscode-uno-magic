@@ -13,8 +13,9 @@ support attribute completions for unocss
 
 ### 🌰 Sample
 - bg#fff -> bg-#fff
-- maxw -> max-w
+- maxw-100% -> max-w-[100%]
 - bg-[rgba(255, 255, 255, 0.5)] -> bg-[rgba(255,255,255,0.5)]
+- translatex--50% -> translate-x-[-50%]
 
 ## :coffee:
 
