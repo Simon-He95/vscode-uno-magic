@@ -55,9 +55,25 @@ export async function activate(context: vscode.ExtensionContext) {
     fs.promises.writeFile(url, newText, 'utf-8').then(() => {
       const beforeLineText = activeTextEditor.document.lineAt(beforeActivePosition.line).text
       const currentLineText = newText.split('\n')[beforeActivePosition.line]
+      // 光标在class之后并且当前行与新当前行发生差异时需要偏移
+      const match = beforeLineText.match(/(class(Name)?=")([^"]*)"/)
+      const isAfterClass = match
+        ? (match.index! + match[1].length - 1 < beforeActivePosition.character)
+        : (currentLineText !== beforeLineText)
+      const isInClass = match
+        ? ((match.index! + match[1].length - 1 < beforeActivePosition.character) && (match.index! + match[1].length + match[3].length >= beforeActivePosition.character))
+        : (currentLineText !== beforeLineText)
+      let newPosition = isAfterClass
+        ? beforeActivePosition.character + currentLineText.length - beforeLineText.length
+        : beforeActivePosition.character
+      if (isInClass) {
+        while ((newPosition > 0) && (currentLineText[newPosition] !== undefined && currentLineText[newPosition] !== ' ' && currentLineText[newPosition] !== '"' && currentLineText[newPosition - 1] !== ' ' && currentLineText[newPosition - 1] !== '"' && currentLineText[newPosition + 1] !== '"' && currentLineText[newPosition + 1] !== ' '))
+          newPosition--
+      }
+
       const newCursorPosition = new vscode.Position(
         beforeActivePosition.line,
-        beforeActivePosition.character + currentLineText.length - beforeLineText.length,
+        newPosition,
       )
       setTimeout(() => {
         activeTextEditor.selection = new vscode.Selection(newCursorPosition, newCursorPosition)
