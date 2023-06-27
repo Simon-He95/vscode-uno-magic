@@ -6,6 +6,8 @@ const prettier = require('prettier')
 
 const common = ['top', 'bottom', 'left', 'right', 'pt', 'pb', 'pl', 'pr', 'mt', 'mb', 'ml', 'mr', 'translate', 'translate-x', 'translate-y']
 const hundredCommon = ['font']
+const colors = ['amber', 'black', 'blue', 'bluegray', 'coolgray', 'cyan', 'dark', 'emerald', 'fuchsia', 'gray', 'green', 'indigo', 'light', 'lightblue', 'lime', 'neutral', 'orange', 'pink', 'purple', 'red', 'rose', 'sky', 'slate', 'stone', 'teal', 'truegray', 'violet', 'warmgray', 'white', 'yellow', 'zinc']
+const colorCommon = ['bg', 'text', 'border']
 const suppleMore = [
   'lh-loose',
   'lh-none',
@@ -25,6 +27,17 @@ const suppleMore = [
   'font-sans',
   ...hundredCommon.reduce((result, item) => {
     result.push(...Array(9).fill(0).map((_, i) => `${item}-${i + 1}00`))
+    return result
+  }, [] as any),
+  ...colorCommon.reduce((result, item) => {
+    Array(9).fill(0).forEach((_, i) => {
+      colors.forEach((color) => {
+        result.push(`${item}-${color}-${i + 1}00`)
+        for (let j = 0; j < 100; j += 10)
+          result.push(`${item}-${color}-${i + 1}00:${j}`)
+        result.push(`${item}-${color}`)
+      })
+    })
     return result
   }, [] as any),
 ]
