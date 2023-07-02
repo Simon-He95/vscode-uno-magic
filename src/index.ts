@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import * as vscode from 'vscode'
-import { addEventListener, createBottomBar, createCompletionItem, getConfiguration, getSelection, registerCommand, registerCompletionItemProvider } from '@vscode-use/utils'
+import { addEventListener, createBottomBar, createCompletionItem, getConfiguration, registerCommand, registerCompletionItemProvider } from '@vscode-use/utils'
 import { findUp } from 'find-up'
 import { rules, transform } from './transform'
 import { getUnoCompletions } from './search'
@@ -99,7 +99,6 @@ export async function activate(context: vscode.ExtensionContext) {
     }))
   }
 
-  let cacheMap: any
   function updateUnoStatus(cwd = currentFolder.uri.fsPath.replace(/\\/g, '/')) {
     if (activeTextEditorUri && !prefix.includes(activeTextEditorUri.split('.').slice(-1)[0])) {
       isUno = undefined
@@ -119,15 +118,7 @@ export async function activate(context: vscode.ExtensionContext) {
   }
 
   // 如果是unocss环境下,给出一些预设提醒
-  context.subscriptions.push(registerCompletionItemProvider(['javascript', 'javascriptreact', 'typescriptreact', 'html', 'vue', 'css'], () => {
-    if (!isUno)
-      return
-    const { lineText, character } = getSelection()!
-    const input = lineText.slice(0, character).split(' ').slice(-1)[0].trim()
-    if (!input)
-      return
-    return cacheMap
-  }, ['"', '\'', ' ', '.']))
+  context.subscriptions.push(registerCompletionItemProvider(['javascript', 'javascriptreact', 'typescriptreact', 'html', 'vue', 'css'], () => isUno && cacheMap, ['"', '\'', ' ']))
 }
 
 export function deactivate() {
