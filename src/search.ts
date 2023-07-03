@@ -8,6 +8,7 @@ const common = ['top', 'bottom', 'left', 'right', 'pt', 'pb', 'pl', 'pr', 'mt', 
 const hundredCommon = ['font']
 const colors = ['amber', 'black', 'blue', 'bluegray', 'coolgray', 'cyan', 'dark', 'emerald', 'fuchsia', 'gray', 'green', 'indigo', 'light', 'lightblue', 'lime', 'neutral', 'orange', 'pink', 'purple', 'red', 'rose', 'sky', 'slate', 'stone', 'teal', 'truegray', 'violet', 'warmgray', 'white', 'yellow', 'zinc']
 const colorCommon = ['bg', 'text', 'border']
+const aspect = [...Array(10).map((_, i) => `aspect-${i}`), 'aspect-square', 'aspect-video', 'aspect-a']
 const suppleMore = [
   'lh-loose',
   'lh-none',
@@ -40,6 +41,7 @@ const suppleMore = [
     })
     return result
   }, [] as any),
+  ...aspect,
 ]
 
 export async function getUnoCompletions(unoUri: string) {
