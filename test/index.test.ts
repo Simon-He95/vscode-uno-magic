@@ -10,13 +10,16 @@ describe('should', () => {
   })
   it('exported', () => {
     expect(transform(`class=" 
-    xxmaxw
+    xxmax-w
     maxw-1
-     xx-col col-x"`)).toMatchInlineSnapshot(`
+     xx-col flex-col-x"`)).toMatchInlineSnapshot(`
        "class=\\" 
-           xxmaxw
+           xxmax-w
            max-w-1
-            xx-col col-x\\""
+            xx-col flex-col-x\\""
      `)
+  })
+  it('exported', () => {
+    expect(transform('class="bg-rgba(1,1,1,1)"')).toMatchInlineSnapshot('"class=\\"bg-[rgba(1,1,1,1)]\\""')
   })
 })

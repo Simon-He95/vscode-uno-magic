@@ -46,37 +46,42 @@ export const rules: any = [
       v = customMap[v]
     if ((v === 'border-b' || v === 'border') && v1 === '1')
       return `${prefix}${v}`
-    if (v === 'text' && (v2 === 'px' || v2 === '') && v1 in textMap)
-      return `${prefix}${v}-${textMap[v1]}`
+    if (v === 'text') {
+      if (v2)
+        return `${prefix}${v}-[${v1}${v2}]`
+      if (v1 in textMap)
+        return `${prefix}${v}-${textMap[v1]}`
+      return `${prefix}${v}-${v1}`
+    }
     return v2.trim() === ''
       ? `${prefix}${v}-${v1}${v2}`
       : `${prefix}${v}-[${v1}${v2}]`
   }],
-  [/(bg|text|border)(\#[^\s\"]+)([\s"])/g, (_: string, v1: string, v2: string, v3: string) => `${v1}-[${v2}]${v3}`],
-  [/([\s])border-box([\s"])/, (_: string, v1 = '', v2: string) => `${v1}box-border${v2}`],
-  [/([\s])content-box([\s"])/, (_: string, v1 = '', v2: string) => `${v1}box-content${v2}`],
-  [/-\[?\s*(rgba?\([^\)]*\))\]?([\s"])/g, (_: string, v: string, v1: string) => `-[${v.replace(/\s*/g, '')}]${v1}`],
-  [/-\[?\s*(calc\([^\)]*\))(\s*)\]?([\s"])/g, (_: string, v: string, v1 = '') => `-[${v.replace(/\s*/g, '')}]${v1}`],
-  [/-(\#[^\s\"]+)([\s"])/g, (_: string, v1: string, v2: string) => `-[${v1}]${v2}`],
-  [/-([0-9]+(?:px)|(?:vw)|(?:vh)|(?:rem)|(?:em)|(?:%))([\s"])/g, (_: string, v1: string, v2 = '') => `-[${v1}]${v2}`],
-  [/([\s!])x-hidden([\s"])/, (_: string, v1: string, v2: string) => `${v1}overflow-x-hidden${v2}`],
-  [/([\s!])y-hidden([\s"])/, (_: string, v1: string, v2: string) => `${v1}overflow-y-hidden${v2}`],
-  [/([\s!])justify-center([\s"])/, (_: string, v1: string, v2: string) => `${v1}justify-center${v2}`],
-  [/([\s!])align-center([\s"])/, (_: string, v1: string, v2: string) => `${v1}items-center${v2}`],
-  [/([\s!])hidden([\s"])/, (_: string, v1: string, v2: string) => `${v1}overflow-hidden${v2}`],
-  [/([\s])eclipse([\s"])/, (_: string, v1: string, v2: string) => `${v1}whitespace-nowrap overflow-hidden text-ellipsis${v2}`],
-  [/([\s])font-?(100|200|300|400|500|600|700|800|900)([\s"])/, (_: string, prefix: string, v1: string, v2: string) => `${prefix}font-${fontMap[v1]}${v2}`],
-  [/([\s])pointer-none([\s"])/, (_: string, v1: string, v2: string) => `${v1}pointer-events-none${v2}`],
-  [/([\s])pointer([\s"])/, (_: string, v1: string, v2: string) => `${v1}cursor-pointer${v2}`],
-  [/([\s])flex-center([\s"])/, (_: string, v1: string, v2: string) => `${v1}justify-center items-center${v2}`],
-  [/([\s])col([\s"])/, (_: string, v1: string, v2: string) => `${v1}flex-col${v2}`],
-  [/([\s])position-center([\s"])/, (_: string, v1: string, v2: string) => `${v1}left-0 right-0 top-0 bottom-0${v2}`],
-  [/([\s])dashed([\s"])/, (_: string, v1: string, v2: string) => `${v1}border-dashed${v2}`],
-  [/([\s])dotted([\s"])/, (_: string, v1: string, v2: string) => `${v1}border-dotted${v2}`],
-  [/([\s])double([\s"])/, (_: string, v1: string, v2: string) => `${v1}border-double${v2}`],
-  [/([\s])contain([\s"])/, (_: string, v1: string, v2: string) => `${v1}bg-contain${v2}`],
-  [/([\s])cover([\s"])/, (_: string, v1: string, v2: string) => `${v1}bg-cover${v2}`],
-  [/([\s])line([0-9]+)([\s"])/, (_: string, v1: string, v2: string, v3: string) => `${v1}line-clamp-${v2}${v3}`],
+  [/(bg|text|border)(\#[^\s\"]+)(\s|$)/g, (_: string, v1: string, v2: string, v3: string) => `${v1}-[${v2}]${v3}`],
+  [/([\s])border-box(\s|$)/, (_: string, v1 = '', v2: string) => `${v1}box-border${v2}`],
+  [/([\s])content-box(\s|$)/, (_: string, v1 = '', v2: string) => `${v1}box-content${v2}`],
+  [/-\[?\s*(rgba?\([^\)]*\))\]?(\s|$)/g, (_: string, v: string, v1: string) => `-[${v.replace(/\s*/g, '')}]${v1}`],
+  [/-\[?\s*(calc\([^\)]*\))(\s*)\]?(\s|$)/g, (_: string, v: string, v1 = '') => `-[${v.replace(/\s*/g, '')}]${v1}`],
+  [/-(\#[^\s\"]+)(\s|$)/g, (_: string, v1: string, v2: string) => `-[${v1}]${v2}`],
+  [/-([0-9]+(?:px)|(?:vw)|(?:vh)|(?:rem)|(?:em)|(?:%))(\s|$)/g, (_: string, v1: string, v2 = '') => `-[${v1}]${v2}`],
+  [/([\s!])x-hidden(\s|$)/, (_: string, v1: string, v2: string) => `${v1}overflow-x-hidden${v2}`],
+  [/([\s!])y-hidden(\s|$)/, (_: string, v1: string, v2: string) => `${v1}overflow-y-hidden${v2}`],
+  [/([\s!])justify-center(\s|$)/, (_: string, v1: string, v2: string) => `${v1}justify-center${v2}`],
+  [/([\s!])align-center(\s|$)/, (_: string, v1: string, v2: string) => `${v1}items-center${v2}`],
+  [/([\s!])hidden(\s|$)/, (_: string, v1: string, v2: string) => `${v1}overflow-hidden${v2}`],
+  [/([\s])eclipse(\s|$)/, (_: string, v1: string, v2: string) => `${v1}whitespace-nowrap overflow-hidden text-ellipsis${v2}`],
+  [/([\s])font-?(100|200|300|400|500|600|700|800|900)(\s|$)/, (_: string, prefix: string, v1: string, v2: string) => `${prefix}font-${fontMap[v1]}${v2}`],
+  [/([\s])pointer-none(\s|$)/, (_: string, v1: string, v2: string) => `${v1}pointer-events-none${v2}`],
+  [/([\s])pointer(\s|$)/, (_: string, v1: string, v2: string) => `${v1}cursor-pointer${v2}`],
+  [/([\s])flex-center(\s|$)/, (_: string, v1: string, v2: string) => `${v1}justify-center items-center${v2}`],
+  [/([\s])col(\s|$)/, (_: string, v1: string, v2: string) => `${v1}flex-col${v2}`],
+  [/([\s])position-center(\s|$)/, (_: string, v1: string, v2: string) => `${v1}left-0 right-0 top-0 bottom-0${v2}`],
+  [/([\s])dashed(\s|$)/, (_: string, v1: string, v2: string) => `${v1}border-dashed${v2}`],
+  [/([\s])dotted(\s|$)/, (_: string, v1: string, v2: string) => `${v1}border-dotted${v2}`],
+  [/([\s])double(\s|$)/, (_: string, v1: string, v2: string) => `${v1}border-double${v2}`],
+  [/([\s])contain(\s|$)/, (_: string, v1: string, v2: string) => `${v1}bg-contain${v2}`],
+  [/([\s])cover(\s|$)/, (_: string, v1: string, v2: string) => `${v1}bg-cover${v2}`],
+  [/([\s])line([0-9]+)(\s|$)/, (_: string, v1: string, v2: string, v3: string) => `${v1}line-clamp-${v2}${v3}`],
 ]
 
 export function transform(content: string) {
