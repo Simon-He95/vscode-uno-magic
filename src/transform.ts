@@ -57,7 +57,7 @@ export const rules: any = [
       ? `${prefix}${v}-${v1}${v2}`
       : `${prefix}${v}-[${v1}${v2}]`
   }],
-  [/(bg|text|border)(\#[^\s\"]+)(\s|$)/g, (_: string, v1: string, v2: string, v3: string) => `${v1}-[${v2}]${v3}`],
+  [/([\s])(bg|text|border)(\#[^\s\"]+)(\s|$)/g, (_: string, v: string, v1: string, v2: string, v3: string) => `${v}${v1}-[${v2}]${v3}`],
   [/([\s])border-box(\s|$)/, (_: string, v1 = '', v2: string) => `${v1}box-border${v2}`],
   [/([\s])content-box(\s|$)/, (_: string, v1 = '', v2: string) => `${v1}box-content${v2}`],
   [/-\[?\s*(rgba?\([^\)]*\))\]?(\s|$)/g, (_: string, v: string, v1: string) => `-[${v.replace(/\s*/g, '')}]${v1}`],
