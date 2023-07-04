@@ -118,7 +118,7 @@ export async function activate(context: vscode.ExtensionContext) {
   }
 
   // 如果是unocss环境下,给出一些预设提醒
-  context.subscriptions.push(registerCompletionItemProvider(['javascript', 'javascriptreact', 'typescriptreact', 'html', 'vue', 'css'], () => isUno && cacheMap, ['"', '\'', ' ']))
+  context.subscriptions.push(registerCompletionItemProvider(['javascript', 'javascriptreact', 'svelte', 'solid', 'typescriptreact', 'html', 'vue', 'css'], () => isUno && cacheMap, ['"', '\'', ' ']))
 }
 
 export function deactivate() {

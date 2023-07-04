@@ -4,8 +4,12 @@ import getConfig from './uno.config'
 
 const prettier = require('prettier')
 
-const common = ['top', 'bottom', 'left', 'right', 'pt', 'pb', 'pl', 'pr', 'mt', 'mb', 'ml', 'mr', 'translate', 'translate-x', 'translate-y', 'aspect', 'columns', 'basis', 'order', 'grid-cols', 'col-span', 'grid-rows', 'row-span', 'gap', 'gap-x', 'gap-y', 'line-clamp', 'lh', 'leading', 'transition', 'rotate', 'indent', 'border', ...['t', 'l', 'r', 'b', 's', 'e', 'x', 'y'].map(v => `border-${v}`), 'outline', 'ring', 'ring-offset', 'opacity', 'border-spacing', 'scale', 'skew', 'skew-x', 'skew-y', ...['t', 'l', 'r', 'b', 's', 'e', 'x', 'y'].map(v => `scroll-m${v}`), ...['t', 'l', 'r', 'b', 's', 'e', 'x', 'y'].map(v => `scroll-p${v}`)]
-const hundredCommon = ['font', 'brightness', 'contrast', 'hue-rotate', 'saturate', 'backdrop-brightness', 'backdrop-contrast', 'backdrop-hue-rotate', 'backdrop-opacity', 'backdrop-saturate']
+const eightWay = ['scroll-p', 'scroll-m']
+  .reduce((result, v) => result.concat(['t', 'l', 'r', 'b', 's', 'e', 'x', 'y'].map(item => `${v}${item}`)), [] as string[])
+
+const common = ['top', 'bottom', 'left', 'right', 'pt', 'pb', 'pl', 'pr', 'mt', 'mb', 'ml', 'mr', 'translate', 'translate-x', 'translate-y', 'aspect', 'columns', 'basis', 'order', 'grid-cols', 'col-span', 'grid-rows', 'row-span', 'gap', 'gap-x', 'gap-y', 'line-clamp', 'lh', 'leading', 'transition', 'rotate', 'indent', 'border', ...['t', 'l', 'r', 'b', 's', 'e', 'x', 'y'].map(v => `border-${v}`), 'outline', 'ring', 'ring-offset', 'opacity', 'border-spacing', 'scale', 'skew', 'skew-x', 'skew-y', ...eightWay]
+
+const hundredCommon = ['font', 'brightness', 'contrast', 'hue-rotate', 'saturate', 'backdrop-brightness', 'backdrop-contrast', 'backdrop-hue-rotate', 'backdrop-opacity', 'backdrop-saturate', 'delay', 'duration']
 const colors = ['amber', 'black', 'blue', 'bluegray', 'coolgray', 'cyan', 'dark', 'emerald', 'fuchsia', 'gray', 'green', 'indigo', 'light', 'lightblue', 'lime', 'neutral', 'orange', 'pink', 'purple', 'red', 'rose', 'sky', 'slate', 'stone', 'teal', 'truegray', 'violet', 'warmgray', 'white', 'yellow', 'zinc']
 const colorCommon = ['bg', 'text', 'border', 'outline', 'ring', 'ring-offset', 'accent', 'caret', 'fill', 'stroke']
 const aspect = ['aspect-square', 'aspect-video', 'aspect-a']
@@ -40,8 +44,13 @@ const rounded = ['rounded-none', 'rounded-sm', 'rounded', 'rounded-md', 'rounded
     .reduce((result, prefix) => result.concat([`rounded-${prefix}-none`, `rounded-${prefix}-sm`, `rounded-${prefix}`, `rounded-${prefix}-md`, `rounded-${prefix}-lg`, `rounded-${prefix}-xl`, `rounded-${prefix}-2xl`, `rounded-${prefix}-3xl`, `rounded-${prefix}-full`]), [] as string[]))
 const blur = ['blur-none', 'blur-sm', 'blur', 'blur-md', 'blur-lg', 'blur-xl', 'blur-2xl', 'blur-3xl']
 const origin = ['origin-center', 'origin-top', 'origin-top-right', 'origin-right', 'origin-bottom-right', 'origin-bottom', 'origin-bottom-left', 'origin-left', 'origin-top-left']
+const stroke_width = ['stroke-0', 'stroke-1', 'stroke-2']
+const will_change = ['will-change-auto', 'will-change-scroll', 'will-change-contents', 'will-change-transform']
+const timing_function = ['ease-linear', 'ease-in', 'ease-out', 'ease-in-out']
+const shadow = ['shadow', 'shadow-sm', 'shadow-md', 'shadow-lg', 'shadow-xl', 'shadow-2xl', 'shadow-inner', 'shadow-non']
 
 const suppleMore = [
+  'container',
   ...line_height,
   ...common.reduce((result, item) => {
     result.push(...Array(10).fill(0).map((_, i) => `${item}-${i}`))
@@ -74,6 +83,10 @@ const suppleMore = [
   ...rounded,
   ...blur,
   ...origin,
+  ...stroke_width,
+  ...will_change,
+  ...timing_function,
+  ...shadow,
 ]
 
 export async function getUnoCompletions(unoUri: string) {
